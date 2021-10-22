@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import "./App.css"
+import { BrowserRouter ,Route,Switch} from "react-router-dom"
+import Login from "./pages/login/login"
+import DashBoard from "./pages/dashboard/dashboard";
+import ContextData from "./components/Context/ContextData";
+import Overview from "./pages/overview/overview"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const  Summary = ()=>{
+	return(
+		<div>
+			this is the summary page
+		</div>
+	)
+}
+const App = ()=>{
+	return(
+	<ContextData>
+		<BrowserRouter>
+			<Switch>
+				<Route path={"/"} exact component={Login}/>
+				<Route path={"/test/:userId/:questionNumber"}  component={DashBoard}/>
+				<Route path={"/quiz/summary"}  component={Summary}/>
+				<Route path={"/quiz/overview"}  component={Overview}/>
+			</Switch>
+		</BrowserRouter>
+		</ContextData>
+	)
 }
 
-export default App;
+export default  App

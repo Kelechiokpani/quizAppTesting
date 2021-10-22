@@ -2,11 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { ToastProvider } from "react-toast-notifications";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <ToastProvider
+      autoDismiss
+      autoDismissTimeout={6000}
+      // components={{ Toast: Snack }}
+      placement="bottom-center">
     <App />
+    </ToastProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
