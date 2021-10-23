@@ -165,15 +165,31 @@ export default function Login() {
 					{/*</Grid>*/}
 				</form>
 			</div>
-		<Background>
-			<div className={"bg-content"}>
 
-				<h1>DEEP TECHNOLOGY NIGERIA  LIMITED</h1>
-				<h3>Build To Satisfaction</h3>
-				<div className={"inner-bg-content"}>
-					<h2>Intern HTML Test</h2>
-					</div>
-			</div>
+		<Background>
+		
+		<Grid className={"bg-content"} sx={12}>
+
+				
+		<Grid container spacing={1}>
+			<Grid item xs={12} spacing={2}>
+				<h1> <span> DEEP </span> TECHNOLOGY NIGERIA LIMITED</h1>
+				<h2>Build To Satisfaction</h2>
+			</Grid>
+
+			<Grid item xs={12}>
+				<h2>Intern HTML Evaluation Test</h2>
+			</Grid>
+			<Grid item xs={12}>
+				<h2>Sign In</h2>
+				<h2>phone: <span>(+234)</span></h2>
+				<h2>Password: <span>(12345)</span></h2>
+			</Grid>
+		</Grid>
+	</Grid>
+
+	
+
 		</Background>
 		</Container>
 	);
