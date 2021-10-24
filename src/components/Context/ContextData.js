@@ -9,7 +9,8 @@ const ContextData = ({ children }) => {
      a: "Attributes",
      b: "Tags", 
      c: "Raw text", 
-     d: "All the answers are true"
+     d: "All the answers are true",
+      answer:""
    },
 
        { question: "Q2.  page designed in HTML is called __________________ ?", 

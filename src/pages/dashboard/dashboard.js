@@ -1,18 +1,19 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState,useCallback} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {Wrapper} from "./dashboard.styles";
 import {Store} from "../../components/Context/ContextData";
 import Avatar from "../../assets/avater.png";
+
 // import  HandleNetwork from  "../../components/network/network"
-import {useToasts} from "react-toast-notifications";
 
 function DashBoard() {
 
 	const [status, setStatus] = useState(null)
-	const {questionNumber} = useParams();
+	const {questionNumber,userId} = useParams();
 	const [counter, setCounter] = useState(questionNumber)
 	const [seconds, setSeconds] = useState(30);
-	const {DataStore} = useContext(Store);
+	const [ exactRoute,setexactRoute] = useState(true);
+	const {DataStore, setData} = useContext(Store);
 	const History = useHistory()
 
 	const HandleVisibility = () => {
@@ -34,32 +35,62 @@ function DashBoard() {
 		}, 2000);
 	}
 	const HandleNext = () => {
+		sessionStorage.setItem("current",questionNumber)
 		setCounter(parseInt(counter) + 1)
 		History.push(`/test/122277477474/${counter}`)
 	}
-	const HandleTimer = ()=>{
+	const HandleTimer = () => {
 		let timer = (sessionStorage.getItem("timer"))
-		if (timer && timer > 0 && seconds > 0) {
+		if (timer && timer > 0 && seconds !== 0) {
+
 			const interval = setInterval(() => {
 				sessionStorage.setItem("timer", JSON.stringify(Number(timer - 1)))
-				setSeconds(timer - 1)
+				setSeconds(Number(timer - 1))
 
-			}, 60000)
+			}, 1000)
+			// }, 60000)
 			return () => clearInterval(interval);
 		} else {
-			if (seconds != 0) {
-				sessionStorage.setItem("timer", JSON.stringify(Number(seconds - 1)))
-				setSeconds(seconds - 1)
+
+			if(timer === null && seconds !==0 ){
+				sessionStorage.setItem("timer", JSON.stringify(Number(seconds)))
+
+				// setSeconds(seconds)
 			}
+			// if (seconds != 0) {
+			// 	setSeconds(seconds)
+			// }
+		}
+	}
+	const HandleChange = ({target}) => {
+		setData([...DataStore,DataStore[questionNumber - 1].answer = target.value])
+	}
+	const HandleSubmit = () => {
+		console.log(DataStore)
+	}
+	const HandleRoute = ()=>{
+		const current = sessionStorage.getItem("current");
+		if(current){
+			if(Number(questionNumber) - Number(current) !== 1){
+				setexactRoute(true)
+				window.location.replace(`/test/${userId}/${current}`)
+			}
+		}else{
+			sessionStorage.setItem("current",questionNumber)
 		}
 	}
 
 
 	useEffect(() => {
+		if(questionNumber === 4){
+			HandleRoute()
+		}
+
 		HandleNetwork()
 		HandleVisibility()
 		HandleTimer()
-	}, [seconds]);
+
+	}, [seconds,DataStore,exactRoute]);
 
 	return (
 		<Wrapper>
@@ -71,7 +102,8 @@ function DashBoard() {
 							<ul className="tablist multisteps-form__progress">
 								<li className="multisteps-form__progress-btn js-active current">
 									<div className="step-btn-icon-text">
-										<span style={status ? {backgroundColor: "green"} : {backgroundColor: "red"}} className="network-status"/>
+										<span style={status ? {backgroundColor: "green"} : {backgroundColor: "red"}}
+										      className="network-status"/>
 										<div className="avater-container">
 											<img src={Avatar} alt=""/>
 										</div>
@@ -110,7 +142,7 @@ function DashBoard() {
 										<div className="wizard-forms position-relative">
 											<span className="step-no position-absolute"> Time Remaining: {seconds} mins.</span>
 											<div className="wizard-inner-box">
-												<div className={"lost-connection"} style={status ? {display:"none"} : {display: "block"}}>
+												<div className={"lost-connection"} style={status ? {display: "none"} : {display: "block"}}>
 													<p>Lost network connection. re-trying to connect...</p>
 												</div>
 												<div className="inner-title text-center">
@@ -151,8 +183,9 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value="Ux designer label"
+																		value={DataStore[questionNumber - 1].a}
 																		className="j-checkbox"
+																		onChange={HandleChange}
 																	/>
 																	<span className="need-job-text">
                                       {DataStore &&
@@ -178,8 +211,9 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value="Front Developer"
+																		value={DataStore[questionNumber - 1].b}
 																		className="j-checkbox"
+																		onChange={HandleChange}
 																	/>
 																	<span className="need-job-text-inner">
                                     <span className="checkbox-circle-mark position-absolute">
@@ -210,8 +244,9 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value="Php Developer"
+																		value={DataStore[questionNumber - 1].c}
 																		className="j-checkbox"
+																		onChange={HandleChange}
 																	/>
 																	<span className="need-job-text-inner">
                                     <span className="checkbox-circle-mark position-absolute">
@@ -242,8 +277,9 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value="Ux designer"
+																		value={DataStore[questionNumber - 1].d}
 																		className="j-checkbox"
+																		onChange={HandleChange}
 																	/>
 																	<span className="need-job-text">
                                       {DataStore &&
@@ -265,8 +301,8 @@ function DashBoard() {
 									</div>
 								</div>
 							</form>
-							<div className="actions" >
-								<button style={{border:"none",background:"none"}} disabled={!status} onClick={HandleNext}>
+							<div className="actions">
+								<button style={{border: "none", background: "none"}} disabled={status} onClick={HandleNext}>
 									<li>
 										<span className="js-btn-next" title="NEXT">
 											NEXT
@@ -274,6 +310,7 @@ function DashBoard() {
 									</li>
 								</button>
 							</div>
+							<button onClick={HandleSubmit}>submit</button>
 						</div>
 					</div>
 				</div>
