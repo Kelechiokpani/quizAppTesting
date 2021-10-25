@@ -1,24 +1,33 @@
-import React, {useContext, useEffect, useState,useCallback} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {Wrapper} from "./dashboard.styles";
 import {Store} from "../../components/Context/ContextData";
 import Avatar from "../../assets/avater.png";
-
-// import  HandleNetwork from  "../../components/network/network"
+import Axios from "axios"
+import {SERVER_URL} from "../../config"
+import {useToasts} from "react-toast-notifications";
 
 function DashBoard() {
-
+	const {addToast} = useToasts();
 	const [status, setStatus] = useState(null)
-	const {questionNumber,userId} = useParams();
+	const {questionNumber, userId} = useParams();
 	const [counter, setCounter] = useState(questionNumber)
 	const [seconds, setSeconds] = useState(30);
-	const [ exactRoute,setexactRoute] = useState(true);
+
+	const [exactRoute,] = useState(true);
+	const [user, setUser] = useState(null)
 	const {DataStore, setData} = useContext(Store);
 	const History = useHistory()
-
+	let ok = true;
 	const HandleVisibility = () => {
 		document.addEventListener("visibilitychange", function () {
-			document.title = document.hidden ? "I'm away" : "I'm here";
+
+			if (ok) {
+				HandleSubmit()
+				console.log("testing")
+				ok = false
+			}
+
 		})
 	}
 	const HandleNetwork = () => {
@@ -35,62 +44,86 @@ function DashBoard() {
 		}, 2000);
 	}
 	const HandleNext = () => {
-		sessionStorage.setItem("current",questionNumber)
+		sessionStorage.setItem("current", questionNumber)
 		setCounter(parseInt(counter) + 1)
 		History.push(`/test/122277477474/${counter}`)
 	}
-	const HandleTimer = () => {
+
+
+	const HandleChange = ({target}) => {
+		setData([...DataStore, DataStore[questionNumber - 1].answer = target.value])
+	}
+	const HandleSubmit = () => {
+		// e.preventDefault()
+		let data = DataStore.slice(0, 15)
+		let token = sessionStorage.getItem("user-token") && sessionStorage.getItem("user-token")
+		let questionAndAnswer = data
+
+		Axios.post(`${SERVER_URL}/intern/submit`, {questionAndAnswer: questionAndAnswer}, {
+			headers: {
+				"Content-Type": "application/json",
+				token: `${token}`
+			}
+		}).then((res) => {
+
+			window.location.replace("/quiz/summary")
+		}).catch((err) => {
+			addToast(err.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+		})
+
+	}
+
+	// const HandleRoute = () => {
+	// 	const current = sessionStorage.getItem("current");
+	// 	if (current) {
+	// 		if (Number(questionNumber) - Number(current) !== 1) {
+	// 			setExactRoute(true)
+	// 			window.location.replace(`/test/${userId}/${current}`)
+	// 		}
+	// 	} else {
+	// 		sessionStorage.setItem("current", questionNumber)
+	// 	}
+	// }
+	const GetUserData = () => {
+		let data = JSON.parse(sessionStorage.getItem("meta-data"))
+		setUser(data)
+
+	}
+
+
+	useEffect(() => {
+		GetUserData()
+		HandleNetwork()
+		HandleVisibility()
+
 		let timer = (sessionStorage.getItem("timer"))
 		if (timer && timer > 0 && seconds !== 0) {
 
 			const interval = setInterval(() => {
 				sessionStorage.setItem("timer", JSON.stringify(Number(timer - 1)))
-				setSeconds(Number(timer - 1))
+				setSeconds(Number(timer) - 1)
+				clearInterval(interval)
+				if (timer <= 0 && seconds <= 0) {
+					HandleSubmit()
+					clearInterval(interval);
 
-			}, 1000)
-			// }, 60000)
-			return () => clearInterval(interval);
+				}
+
+			}, 60000)
+
 		} else {
-
-			if(timer === null && seconds !==0 ){
-				sessionStorage.setItem("timer", JSON.stringify(Number(seconds)))
-
-				// setSeconds(seconds)
+			if (timer === null) {
+				sessionStorage.setItem("timer", JSON.stringify(seconds - 1))
+				setSeconds(seconds - 1)
+			} else if (Number(timer) === 0) {
+				setSeconds(Number(timer))
 			}
-			// if (seconds != 0) {
-			// 	setSeconds(seconds)
-			// }
-		}
-	}
-	const HandleChange = ({target}) => {
-		setData([...DataStore,DataStore[questionNumber - 1].answer = target.value])
-	}
-	const HandleSubmit = () => {
-		console.log(DataStore)
-	}
-	const HandleRoute = ()=>{
-		const current = sessionStorage.getItem("current");
-		if(current){
-			if(Number(questionNumber) - Number(current) !== 1){
-				setexactRoute(true)
-				window.location.replace(`/test/${userId}/${current}`)
-			}
-		}else{
-			sessionStorage.setItem("current",questionNumber)
-		}
-	}
-
-
-	useEffect(() => {
-		if(questionNumber === 4){
-			HandleRoute()
 		}
 
-		HandleNetwork()
-		HandleVisibility()
-		HandleTimer()
-
-	}, [seconds,DataStore,exactRoute]);
+	}, [seconds, exactRoute]);
 
 	return (
 		<Wrapper>
@@ -105,7 +138,7 @@ function DashBoard() {
 										<span style={status ? {backgroundColor: "green"} : {backgroundColor: "red"}}
 										      className="network-status"/>
 										<div className="avater-container">
-											<img src={Avatar} alt=""/>
+											<img src={user && user.avatar ? user.avatar : Avatar} alt=""/>
 										</div>
 									</div>
 								</li>
@@ -140,7 +173,8 @@ function DashBoard() {
 										data-animation="scaleIn"
 									>
 										<div className="wizard-forms position-relative">
-											<span className="step-no position-absolute"> Time Remaining: {seconds} mins.</span>
+											{/*<span className="step-no position-absolute"> Time Remaining:{<Countdown date={Date.now() + 1800000} onComplete={HandleSubmit}/>}</span>*/}
+											<span className="step-no position-absolute"> Time Remaining:{seconds}</span>
 											<div className="wizard-inner-box">
 												<div className={"lost-connection"} style={status ? {display: "none"} : {display: "block"}}>
 													<p>Lost network connection. re-trying to connect...</p>
@@ -149,7 +183,7 @@ function DashBoard() {
 													<h2>
 														{" "}
 														{DataStore && DataStore[questionNumber - 1] ? (
-															DataStore[questionNumber - 1].question
+															`Q${questionNumber} ${DataStore[questionNumber - 1].question}`
 														) : (
 															<h1>No Question Found</h1>
 														)}
@@ -301,15 +335,24 @@ function DashBoard() {
 									</div>
 								</div>
 							</form>
-							<div className="actions">
-								<button style={{border: "none", background: "none"}} disabled={status} onClick={HandleNext}>
+							{questionNumber === "15" ? (<div className="actions">
+								<button style={{border: "none", background: "none"}} disabled={!status} onClick={HandleSubmit}>
+									<li>
+										<span className="js-btn-next" title="NEXT">
+										SUBMIT
+										</span>
+									</li>
+								</button>
+							</div>) : (<div className="actions">
+								<button style={{border: "none", background: "none"}} disabled={!status} onClick={HandleNext}>
 									<li>
 										<span className="js-btn-next" title="NEXT">
 											NEXT
 										</span>
 									</li>
 								</button>
-							</div>
+							</div>)}
+
 							<button onClick={HandleSubmit}>submit</button>
 						</div>
 					</div>

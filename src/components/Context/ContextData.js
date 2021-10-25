@@ -5,114 +5,129 @@ export const Store = createContext({});
 
 const ContextData = ({ children }) => {
   const [Data, setData] = useState([  
-    { question: "Q1.  An HTML document can contain __________________ ?", 
+    { question: "An HTML document can contain _____",
      a: "Attributes",
      b: "Tags", 
      c: "Raw text", 
      d: "All the answers are true",
-      answer:""
+    answer:""
+
    },
 
-       { question: "Q2.  page designed in HTML is called __________________ ?", 
+       { question: "A page designed in HTML is called _____",
        a: "Application", 
        b: " Cover page", 
        c: "Front-end", 
-       d: "All the answers are true"
+       d: "All the answers are true",
+         answer:""
    },
 
-       {question: "Q3.  An HTML document is saved with the __________________ extension.",
+       {question: "An HTML document is saved with the ____ extension.",
        a: ".htl",
        b: ".html",
        c: ".hml",
-       d: ".htnl"
+       d: ".htnl",
+         answer:""
    },
 
-   {question: " Q4.  The HTML document contains a root tag called __________________ ?",
+   {question: "The HTML document contains a root tag called ____",
        a: "Head",
        b: "Title",
        c: "Body",
-       d: "Html"
+       d: "Html",
+     answer:""
    },
    
-   {question: "Q5.  If we want to place text around an image, which CSS property should we use ?",
+   {question: "If we want to place text around an image, which CSS property should we use?",
        a: "push",
        b: "float",
        c: "align",
-       d: "wrap"
+       d: "wrap",
+     answer:""
    },
    
-   {question: "Q6.  Can we align an element by setting margin-left and margin-right?",
+   {question: "Can we align an element by setting margin-left and margin-right?",
        a: "Yes it’s possible.",
        b: "not quite possible.",
        c: "yes it’s not possible.",
-       d: "No, it’s not possible."
+       d: "No, it’s not possible.",
+     answer:""
    },
 
-   {question: "Q7. Suppose we want to arrange three DIVs so that DIV 3 is placed above DIV1, Now, which CSS property are we going to use to control the stack order?",
+   {question: "Suppose we want to arrange three DIVs so that DIV 3 is placed above DIV1. Now, which CSS property are we going to use to control the stack order?",
        a: "d-index",
        b: "s-index",
        c: "x-index",
-       d: "z-index"
+       d: "z-index",
+     answer:""
    },
        
-   {question: "Q8  If we want to use a nice green dotted border around an image, which css property are we going to use?",
+   {question: "If we want to use a nice green dotted border around an image, which css property are we going to use?",
        a: "border-line",
        b: "border-style",
        c: "border-decoration",
-       d: "border-color"
+       d: "border-color",
+     answer:""
    },
 
-   {question: "Q9  The attribute, which define the relationship between current document and HREF'ed URL is________________?",
+   {question: "The attribute, which define the relationship between current document and HREF'ed URL is?",
        a:	"REL",
        b:	"URL",
        c:	"REV",
-       d:	"None of the above"
+       d:	"None of the above",
+     answer:""
    },
    
-   {question: "Q10  Which of the following options is correct with regard to HTML ?",
+   {	question: "Which of the following options is correct with regard to HTML?",
        a: "It is a modelling language",
        b: "It is a DTP language",
        c: "It is a partial programming language",
-       d: "It is used to structure documents "
+       d: "It is used to structure documents ",
+     answer:""
    },
      
-   {question: "Q11     Which attribute is used to name an element uniquely ?",
+   {question: "Which attribute is used to name an element uniquely?",
    a:	"class",
    b:	"id",
    c:	"dot",
-   d:	"all of above"
+   d:	"all of above",
+     answer:""
    },
 
 
-   {question: "Q12     Which of the following selector matches a particular element only when it lies inside a particular element ?",
+    {question: "Which of the following selector matches a particular element only when it lies inside a particular element?",
    a: "The Type Selector",
    b: "The Descendant Selector",		
    c: "The Universal Selector",
-   d:	"The Class Selector"
+   d:	"The Class Selector",
+     answer:""
    },
 
 
-   {question: "Q13     Which of the following property is used to increase or decrease how bold or light a font appears ?",
+   {		question: "Which of the following property is used to increase or decrease how bold or light a font appears?",
    a: "font-family",
    b: "font-style",
    c: "font-variant",
-   d: "font-weight"
+   d: "font-weight",
+     answer:""
    },
 
 
-   {question: "Q14     Which of the following property is used as a shorthand to specify a number of other background properties ?",
+   {		question: "Which of the following property is used as a shorthand to specify a number of other background properties?",
        a: "background-attachment",
        b: "background",
        c: "background-repeat",
-       d: "background-position"
+       d: "background-position",
+     answer:""
    },
 
 
-   {question: "Q15  Which of the following property specifies whether  a long point that wraps to a second line should align with the first line or start underneath the start of the marker of a list ?",
+    {question: "Which of the following property specifies whether a long point that wraps to a second line should align with the first line or start underneath the start of the marker of a list?",
       a:	"list-style-type",
       b:   "list-style-position",
       c:   "list-style-image",
-      d:   "list-style"
+      d:   "list-style",
+     answer:""
       
    },
    

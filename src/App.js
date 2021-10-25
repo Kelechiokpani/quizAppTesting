@@ -22,7 +22,7 @@ const App = ()=>{
 			<Switch>
 				<Route path={"/"} exact component={Login}/>
 
-				<SecureQuestions path={"/test/:userId/:questionNumber"}  component={DashBoard}/>
+				<ProtectedRoute path={"/test/:userId/:questionNumber"}  component={DashBoard}/>
 				<ProtectedRoute path={"/quiz/summary"}  component={Summary}/>
 				<ProtectedRoute path={"/quiz/overview"}  component={Overview}/>
 
