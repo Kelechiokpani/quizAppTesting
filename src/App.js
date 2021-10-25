@@ -5,14 +5,15 @@ import Login from "./pages/login/login"
 import DashBoard from "./pages/dashboard/dashboard";
 import ContextData from "./components/Context/ContextData";
 import Overview from "./pages/overview/overview"
+import Summary from "./pages/summary/summary"
 
-const  Summary = ()=>{
-	return(
-		<div>
-			this is the summary page
-		</div>
-	)
-}
+// const  Summary = ()=>{
+// 	return(
+// 		<div>
+// 			this is the summary page
+// 		</div>
+// 	)
+// }
 const App = ()=>{
 	return(
 	<ContextData>

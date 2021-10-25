@@ -1,0 +1,29 @@
+
+.content {
+    width:50%;
+    height: 50%;
+    background-color: honeydew;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius:  1em;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(50%, 50%);
+    box-shadow: 11px 10px 11px 6px #2e2d2d69;
+    
+    
+  
+}
+h1{
+    margin-bottom: -20px;
+    font-family: cursive;
+    font-size:5em;
+    font-weight: 600;
+    letter-spacing: 20px;
+    color: rgb(224, 7, 7);
+}
+p{
+    font-size: 18px;
+    font-weight: 600;
+    color: black;
+}
