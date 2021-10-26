@@ -46,12 +46,18 @@ function DashBoard() {
 	const HandleNext = () => {
 		sessionStorage.setItem("current", questionNumber)
 		setCounter(parseInt(counter) + 1)
-		History.push(`/test/122277477474/${counter}`)
+		History.push(`/test/${user._id}/${counter}`)
+	}
+	const HandlePrev = () => {
+		sessionStorage.setItem("current", questionNumber)
+		setCounter(parseInt(counter) - 1)
+		History.push(`/test/${user._id}/${counter}`)
 	}
 
 
 	const HandleChange = ({target}) => {
 		setData([...DataStore, DataStore[questionNumber - 1].answer = target.value])
+		target.value=""
 	}
 	const HandleSubmit = () => {
 		// e.preventDefault()
@@ -235,7 +241,7 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value={DataStore && DataStore[questionNumber - 1].a}
+																		value={DataStore && DataStore[shuffle[questionNumber - 1]].a}
 																		className="j-checkbox"
 																		onChange={HandleChange}
 																	/>
@@ -262,7 +268,7 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value={DataStore && DataStore[questionNumber - 1].b}
+																		value={DataStore && DataStore[shuffle[questionNumber - 1]].b}
 																		className="j-checkbox"
 																		onChange={HandleChange}
 																	/>
@@ -295,7 +301,7 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value={DataStore[questionNumber - 1].c}
+																		value={DataStore && DataStore[shuffle[questionNumber - 1]].c}
 																		className="j-checkbox"
 																		onChange={HandleChange}
 																	/>
@@ -328,7 +334,7 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value={DataStore[questionNumber - 1].d}
+																		value={DataStore && DataStore[shuffle[questionNumber - 1]].d}
 																		className="j-checkbox"
 																		onChange={HandleChange}
 																	/>
@@ -352,6 +358,16 @@ function DashBoard() {
 									</div>
 								</div>
 							</form>
+							{questionNumber > "1" && <div className="actions-left">
+									<button style={{border: "none", background: "none"}} disabled={!status} onClick={HandlePrev}>
+										<li>
+										<span className="js-btn-next" title="PREV">
+										PREV
+										</span>
+										</li>
+									</button>
+							</div>
+								}
 							{questionNumber === "30" ? (<div className="actions">
 								<button style={{border: "none", background: "none"}} disabled={!status} onClick={HandleSubmit}>
 									<li>
@@ -370,7 +386,7 @@ function DashBoard() {
 								</button>
 							</div>)}
 
-							<button onClick={HandleSubmit}>submit</button>
+
 						</div>
 					</div>
 				</div>

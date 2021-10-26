@@ -165,6 +165,30 @@ export const Wrapper = styled.div`
     top: 95%;
     left: 73%;
 	}
+	.actions-left li span {
+    display: block;
+    width: 90%;
+    height: 30px;
+	}
+		.actions-left{
+    
+    float: left;
+    position: absolute;
+    top: 93%;
+	}
+  .actions-left li {
+    color: #fff;
+    height: 66px;
+    width: 169px;
+    font-size: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    line-height: 74px;
+    border-radius: 50px;
+    display: inline-block;
+    background-color: #7650e0;
+  }
   .avater-container{
     width:80px;
     height:80px;
