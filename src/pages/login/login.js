@@ -1,5 +1,10 @@
 import React, { useState } from "react";
+
 import Axios from "axios";
+
+
+
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,8 +15,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import {Background} from "./login.styles"
+
 import { useToasts } from "react-toast-notifications";
 import { SERVER_URL } from "../../config";
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
 	let intailInput = {
+
 		password: "",
 		phoneNumber: ""
 
@@ -71,8 +80,8 @@ export default function Login() {
 
 	const HandleSubmit = (e) => {
 		e.preventDefault();
-console.log(input)
-		// setsubmitDisplay(true);
+
+
 		if (input.phoneNumber.length <= 4 || input.phoneNumber ==="") {
 			addToast(`phoneNumber field must not be empty or less than 4`, {
 			  appearance: "error",
@@ -107,6 +116,7 @@ console.log(input)
 			}
 		else if(res.data.user.testTaken === true){
 				sessionStorage.setItem("user-token",res.data.token)
+				sessionStorage.setItem("meta-data",JSON.stringify(res.data.user))
 			window.location.replace("/quiz/summary")
 		}
 		else {
@@ -122,9 +132,9 @@ console.log(input)
 			});
 		})
 
-
-	  
 	};
+
+
 	return (
 		<Container component="main" maxWidth="xl" style={{display:"flex" ,width:"100%",padding:"0" ,}}>
 			<CssBaseline />
@@ -135,6 +145,7 @@ console.log(input)
 				<Typography component="h1" variant="h5" >
 					Sign in
 				</Typography>
+
 				<form className={classes.form} noValidate onSubmit={HandleSubmit} >
 
 					<Grid item xs={12} style={{ display: "flex", alignItems: "center"}}>
@@ -152,6 +163,7 @@ console.log(input)
 							style={{marginBottom:"3%"}}
 						/>
 						</Grid>
+
 					<Grid>
 						<TextField
 							variant="outlined"
@@ -163,10 +175,13 @@ console.log(input)
 							autoComplete="current-password"
 							onChange={HandleChange}
 							value={input.password}
+
+
 							onFocus={() => setsubmitDisplay(false)}
 
 						/>
 					</Grid>
+
 						<Button
 						type="submit"
 						fullWidth
@@ -177,19 +192,9 @@ console.log(input)
 					>
 						Sign In
 					</Button>
-					{/*<Grid container style={{ marginBottom: "30px" }}>*/}
-					{/*	<Grid item xs>*/}
-					{/*		<Link href="/customer/forgotpassword" variant="body2">*/}
-					{/*			Forgot password?*/}
-					{/*		</Link>*/}
-					{/*	</Grid>*/}
-					{/*	<Grid item>*/}
-					{/*		<Link href="/customer/accounttype" variant="body2">*/}
-					{/*			Don't have an account? Sign Up*/}
-					{/*		</Link>*/}
-					{/*	</Grid>*/}
-					{/*</Grid>*/}
+
 				</form>
+
 			</div>
 
 		<Background>
@@ -197,7 +202,7 @@ console.log(input)
 		<Grid className={"bg-content"} sx={12}>
 
 				
-		<Grid container spacing={1}>
+		<Grid container spacing={2}>
 			<Grid item xs={12} spacing={2}>
 				<h1> <span> DEEP </span> TECHNOLOGY NIGERIA LIMITED</h1>
 				<h2>Build To Satisfaction</h2>

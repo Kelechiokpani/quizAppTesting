@@ -4,6 +4,10 @@ import Avatar from "./../../assets/avater.png"
 const Overview = ()=>{
 	const [user,setUser] = useState(null)
 	const HandleRedirect =()=>{
+
+		if(user.testTaken){
+			return window.location.replace(`/quiz/summary`)
+		}
 		window.location.replace(`/test/${user && user._id}/1`)
 	}
 useEffect(()=>{
@@ -12,8 +16,8 @@ useEffect(()=>{
 },[])
 	return(
 		<Container>
-			<div className={"first"}></div>
-			<div className={"second"}></div>
+			<div className={"first"}/>
+			<div className={"second"}/>
 			<div className={"content"}>
 				<div className={"content-img-container"}>
 					<img src={user && user.avatar  ? user.avatar : Avatar} alt={"logo"}/>

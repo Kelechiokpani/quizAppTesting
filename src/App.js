@@ -5,15 +5,19 @@ import Login from "./pages/login/login"
 import DashBoard from "./pages/dashboard/dashboard";
 import ContextData from "./components/Context/ContextData";
 import Overview from "./pages/overview/overview"
+
 import {ProtectedRoute, SecureQuestions} from "./privateRoute";
 
-const  Summary = ()=>{
-	return(
-		<div>
-			this is the summary page
-		</div>
-	)
-}
+import Summary from "./pages/summary/summary"
+
+
+// const  Summary = ()=>{
+// 	return(
+// 		<div>
+// 			this is the summary page
+// 		</div>
+// 	)
+// }
 const App = ()=>{
 
 	return(

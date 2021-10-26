@@ -12,7 +12,8 @@ function DashBoard() {
 	const [status, setStatus] = useState(null)
 	const {questionNumber, userId} = useParams();
 	const [counter, setCounter] = useState(questionNumber)
-	const [seconds, setSeconds] = useState(30);
+	const [seconds, setSeconds] = useState(31);
+	const [shuffle, setShuffle] = useState([]);
 
 	const [exactRoute,] = useState(true);
 	const [user, setUser] = useState(null)
@@ -24,7 +25,6 @@ function DashBoard() {
 
 			if (ok) {
 				HandleSubmit()
-				console.log("testing")
 				ok = false
 			}
 
@@ -66,7 +66,7 @@ function DashBoard() {
 			}
 		}).then((res) => {
 
-			window.location.replace("/quiz/summary")
+		window.location.replace("/quiz/summary")
 		}).catch((err) => {
 			addToast(err.message, {
 				appearance: "error",
@@ -92,27 +92,45 @@ function DashBoard() {
 		setUser(data)
 
 	}
+	const HandleShuffle = () => {
+		let arr = []
+		for (let i = 0; i < 30; ++i) arr[i] = i;
+		let tmp, current, top = arr.length;
+		if (top) while (--top) {
+			current = Math.floor(Math.random() * (top + 1));
+			tmp = arr[current];
+			arr[current] = arr[top];
+			arr[top] = tmp;
+		}
+		sessionStorage.setItem("shuffle",JSON.stringify(arr))
+		// return arr;
+	}
 
 
 	useEffect(() => {
+		let random = JSON.parse(sessionStorage.getItem("shuffle"))
+		if(random === null){
+
+			HandleShuffle()
+		}else{
+			setShuffle(random)
+		}
 		GetUserData()
 		HandleNetwork()
 		HandleVisibility()
 
 		let timer = (sessionStorage.getItem("timer"))
 		if (timer && timer > 0 && seconds !== 0) {
-
+		setSeconds(Number(timer))
 			const interval = setInterval(() => {
 				sessionStorage.setItem("timer", JSON.stringify(Number(timer - 1)))
 				setSeconds(Number(timer) - 1)
-				clearInterval(interval)
-				if (timer <= 0 && seconds <= 0) {
-					HandleSubmit()
-					clearInterval(interval);
-
-				}
+				return clearInterval(interval)
 
 			}, 60000)
+
+		}else if (timer <= 0 && seconds <= 0) {
+			HandleSubmit()
 
 		} else {
 			if (timer === null) {
@@ -174,7 +192,7 @@ function DashBoard() {
 									>
 										<div className="wizard-forms position-relative">
 											{/*<span className="step-no position-absolute"> Time Remaining:{<Countdown date={Date.now() + 1800000} onComplete={HandleSubmit}/>}</span>*/}
-											<span className="step-no position-absolute"> Time Remaining:{seconds}</span>
+											<span className="step-no position-absolute"> Time Remaining:{seconds} mins.</span>
 											<div className="wizard-inner-box">
 												<div className={"lost-connection"} style={status ? {display: "none"} : {display: "block"}}>
 													<p>Lost network connection. re-trying to connect...</p>
@@ -182,8 +200,8 @@ function DashBoard() {
 												<div className="inner-title text-center">
 													<h2>
 														{" "}
-														{DataStore && DataStore[questionNumber - 1] ? (
-															`Q${questionNumber} ${DataStore[questionNumber - 1].question}`
+														{DataStore && DataStore[shuffle[questionNumber - 1]] ? (
+															`Q${questionNumber} ${DataStore[shuffle[questionNumber - 1]].question}`
 														) : (
 															<h1>No Question Found</h1>
 														)}
@@ -217,15 +235,14 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value={DataStore[questionNumber - 1].a}
+																		value={DataStore && DataStore[questionNumber - 1].a}
 																		className="j-checkbox"
 																		onChange={HandleChange}
 																	/>
 																	<span className="need-job-text">
-                                      {DataStore &&
-                                      DataStore[questionNumber - 1] ? (
+                                      {DataStore && DataStore[shuffle[questionNumber - 1]] ? (
 	                                      <span className="text-uppercase need-job-title">
-                                          {DataStore[questionNumber - 1].a}
+                                          {DataStore && DataStore[shuffle[questionNumber - 1]].a}
                                         </span>
                                       ) : (
 	                                      ""
@@ -245,7 +262,7 @@ function DashBoard() {
 																	<input
 																		type="radio"
 																		name="job_title"
-																		value={DataStore[questionNumber - 1].b}
+																		value={DataStore && DataStore[questionNumber - 1].b}
 																		className="j-checkbox"
 																		onChange={HandleChange}
 																	/>
@@ -255,9 +272,9 @@ function DashBoard() {
                                     </span>
                                     <span className="need-job-text">
                                       {DataStore &&
-                                      DataStore[questionNumber - 1] ? (
+                                      DataStore[shuffle[questionNumber - 1]] ? (
 	                                      <span className="text-uppercase need-job-title">
-                                          {DataStore[questionNumber - 1].b}
+                                          {DataStore && DataStore[shuffle[questionNumber - 1]].b}
                                         </span>
                                       ) : (
 	                                      ""
@@ -288,9 +305,9 @@ function DashBoard() {
                                     </span>
                                     <span className="need-job-text">
                                       {DataStore &&
-                                      DataStore[questionNumber - 1] ? (
+                                      DataStore[shuffle[questionNumber - 1]] ? (
 	                                      <span className="text-uppercase need-job-title">
-                                          {DataStore[questionNumber - 1].c}
+                                          {DataStore[shuffle[questionNumber - 1]].c}
                                         </span>
                                       ) : (
 	                                      ""
@@ -317,9 +334,9 @@ function DashBoard() {
 																	/>
 																	<span className="need-job-text">
                                       {DataStore &&
-                                      DataStore[questionNumber - 1] ? (
+                                      DataStore[shuffle[questionNumber - 1]] ? (
 	                                      <span className="text-uppercase need-job-title">
-                                          {DataStore[questionNumber - 1].d}
+                                          {DataStore[shuffle[questionNumber - 1]].d}
                                         </span>
                                       ) : (
 	                                      ""
@@ -335,10 +352,10 @@ function DashBoard() {
 									</div>
 								</div>
 							</form>
-							{questionNumber === "15" ? (<div className="actions">
+							{questionNumber === "30" ? (<div className="actions">
 								<button style={{border: "none", background: "none"}} disabled={!status} onClick={HandleSubmit}>
 									<li>
-										<span className="js-btn-next" title="NEXT">
+										<span className="js-btn-next" title="SUBMIT">
 										SUBMIT
 										</span>
 									</li>

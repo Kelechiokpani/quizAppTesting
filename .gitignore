@@ -4,11 +4,17 @@
 /node_modules
 /.pnp
 .pnp.js
+
 /.idea
 yarn.lock
 
+.idea
+package-lock.json
+
+
 # testing
 /coverage
+yarn.lock
 
 # production
 /build

@@ -172,7 +172,7 @@ export const Wrapper = styled.div`
   }
   .avater-container img {
     width:100%;
-    height:auto;
+    height:100%;
     border-radius: inherit;
   }
   .network-status{
