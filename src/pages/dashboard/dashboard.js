@@ -370,7 +370,7 @@ function DashBoard() {
 								</button>
 							</div>)}
 
-							<button onClick={HandleSubmit}>submit</button>
+
 						</div>
 					</div>
 				</div>
