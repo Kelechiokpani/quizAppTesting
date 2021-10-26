@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { useHistory,Redirect } from "react-router-dom";
+
+import Axios from "axios";
+
+
+
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -11,6 +15,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import {Background} from "./login.styles"
+
+import { useToasts } from "react-toast-notifications";
+import { SERVER_URL } from "../../config";
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,20 +47,23 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 
+
 }));
 
 export default function Login() {
 	let intailInput = {
-		phoneNumber: "",
+
 		password: "",
+		phoneNumber: ""
+
 	};
 
-	// const { addToast } = useToasts();
-	const history = useHistory();
+	const { addToast } = useToasts();
+
 
 
 	const classes = useStyles();
-	// const eye = <FontAwesomeIcon icon={faEye} />;
+
 	const [passwordShown, setPasswordShown] = useState(false);
 	const [submitDisplay, setsubmitDisplay] = useState(true);
 
@@ -68,37 +80,63 @@ export default function Login() {
 
 	const HandleSubmit = (e) => {
 		e.preventDefault();
-		// setsubmitDisplay(true);
-		// if (input.email.length <= 4 || input.email === " ") {
-			// addToast(`Email field must not be empty`, {
-			//   appearance: "error",
-			//   autoDismiss: true,
-			// });
-		// 	return false;
-		// }
-		// if (input.password.length <= 4 || input.password === " ") {
-			// addToast(`Password field must not be empty`, {
-			//   appearance: "error",
-			//   autoDismiss: true,
-			// });
-			// return false;
-		// window.location.replace("/quiz/overview")
-		console.log(input)
 
 
-		// history.push({
-		// 	pathname: '/quiz/12332133/1',
-		// 	state: { detail: 'some_value' }
-		// });
-	  
+		if (input.phoneNumber.length <= 4 || input.phoneNumber ==="") {
+			addToast(`phoneNumber field must not be empty or less than 4`, {
+			  appearance: "error",
+			  autoDismiss: true,
+			});
+			return false;
+		}
+		if (input.password.length <= 4 || input.password === " ") {
+			addToast(`Password field must not be empty or less than 4`, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+			return false;
+		}
+		Axios.post(`${SERVER_URL}/intern/login`, input,{
+			headers: {
+				"Content-Type": "application/json",
+			}}
+		).then((res)=>{
+			console.log(res.data)
+			if(res.data === "user not found"){
+				addToast(res.data, {
+					appearance: "error",
+					autoDismiss: true,
+				});
+			}
+		else if(res.data === "incorrect user password"){
+				addToast(res.data, {
+					appearance: "error",
+					autoDismiss: true,
+				});
+			}
+		else if(res.data.user.testTaken === true){
+				sessionStorage.setItem("user-token",res.data.token)
+				sessionStorage.setItem("meta-data",JSON.stringify(res.data.user))
+			window.location.replace("/quiz/summary")
+		}
+		else {
+				sessionStorage.setItem("user-token",res.data.token)
+				sessionStorage.setItem("meta-data",JSON.stringify(res.data.user))
+				window.location.replace("/quiz/overview")
+			}
+
+		}).catch((err)=>{
+			addToast(err.message, {
+				appearance: "error",
+				autoDismiss: true,
+			});
+		})
+
 	};
 
-//get user data from input 
-
-//collecting user data with a handleonchange 
 
 	return (
-		<Container component="main" maxWidth="xxl" style={{display:"flex" ,width:"100%",padding:"0" ,}}>
+		<Container component="main" maxWidth="xl" style={{display:"flex" ,width:"100%",padding:"0" ,}}>
 			<CssBaseline />
 			<div className={classes.paper} style={{marginTop:"10%"}}>
 				<Avatar className={classes.avatar}>
@@ -119,7 +157,8 @@ export default function Login() {
 							name="phoneNumber"
 							label="Phone Number"
 							autoComplete="current-phone"
-							onChange={ HandleChange}
+							onChange={HandleChange}
+							value={input.phoneNumber}
 							onFocus={() => setsubmitDisplay(false)}
 							style={{marginBottom:"3%"}}
 						/>
@@ -134,7 +173,10 @@ export default function Login() {
 							name="password"
 							label="Password"
 							autoComplete="current-password"
-							onChange={ HandleChange}
+							onChange={HandleChange}
+							value={input.password}
+
+
 							onFocus={() => setsubmitDisplay(false)}
 
 						/>
@@ -151,18 +193,6 @@ export default function Login() {
 						Sign In
 					</Button>
 
-					{/*<Grid container style={{ marginBottom: "30px" }}>*/}
-					{/*	<Grid item xs>*/}
-					{/*		<Link href="/customer/forgotpassword" variant="body2">*/}
-					{/*			Forgot password?*/}
-					{/*		</Link>*/}
-					{/*	</Grid>*/}
-					{/*	<Grid item>*/}
-					{/*		<Link href="/customer/accounttype" variant="body2">*/}
-					{/*			Don't have an account? Sign Up*/}
-					{/*		</Link>*/}
-					{/*	</Grid>*/}
-					{/*</Grid>*/}
 				</form>
 
 			</div>

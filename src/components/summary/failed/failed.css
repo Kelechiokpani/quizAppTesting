@@ -1,5 +1,5 @@
 
-.content {
+.failed_content {
     width:50%;
     height: 50%;
     background-color: honeydew;
@@ -14,7 +14,7 @@
     
   
 }
-h1{
+.content-h1{
     margin-bottom: -20px;
     font-family: cursive;
     font-size:5em;
@@ -22,8 +22,8 @@ h1{
     letter-spacing: 20px;
     color: rgb(224, 7, 7);
 }
-p{
+.content-p{
     font-size: 18px;
     font-weight: 600;
-    color: black;
+    font-family: 'Work Sans',sans-serif;
 }

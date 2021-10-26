@@ -16,14 +16,14 @@ import success from './success.css'
 // );
 
 
-export default function Success(){
+export default function Success({fullName,score}){
   return (
-    <div className="content">
+    <div className="success_content">
       <CardContent>
-      <h2>Congratulations</h2>
+      <h2 className={"content-h2"}>Congratulations</h2>
       <CheckCircleIcon sx={{ fontSize: 60, color:"green"}} />
         <h6> Scored Above Average !!</h6>
-        <p> Hey Emmanuel your Scored {25} out of {30} Questions</p>
+        <p className={"content-p"}> Hey {fullName && fullName} you Scored {score && score} out of {30} Questions</p>
       </CardContent>
      
     </div>

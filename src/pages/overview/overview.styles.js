@@ -27,7 +27,7 @@ margin-bottom: -25px;
 }
 .content-img-container img{
 width:100%;
-height:auto;
+height:100%;
 border-radius:inherit;
 }
 .content{

@@ -1,6 +1,6 @@
 
 
-.content {
+.success_content {
     width:50%;
     height: 50%;
     background-color: honeydew;
@@ -15,7 +15,7 @@
     
   
 }
-h2{
+.content-h2{
     margin-bottom: -20px;
     font-family: cursive;
     font-size: 5em;
@@ -23,7 +23,7 @@ h2{
     letter-spacing: 5px;
     color: rgb(2, 100, 2);
 }
-p{
+.content-p{
     font-size: 18px;
     font-weight: 600;
     color: black;
