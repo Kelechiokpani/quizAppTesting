@@ -75,6 +75,7 @@ function DashBoard() {
 		}).then((res) => {
 
 		window.location.replace("/quiz/summary")
+			sessionStorage.setItem("timer", JSON.stringify(0))
 		}).catch((err) => {
 			addToast(err.message, {
 				appearance: "error",
@@ -132,6 +133,7 @@ function DashBoard() {
 				setSeconds(seconds - 1)
 			} else if (Number(timer) === 0) {
 				setSeconds(Number(timer))
+				window.location.replace("/quiz/summary")
 			}
 		}
 
@@ -231,6 +233,7 @@ function DashBoard() {
 																		name="job_title"
 																		value={DataStore && DataStore[shuffle[questionNumber - 1]] ? DataStore[shuffle[questionNumber - 1]].a:""}
 																		className="j-checkbox"
+																		checked={ DataStore[shuffle[questionNumber - 1]] &&  DataStore[shuffle[questionNumber - 1]].answer === DataStore[shuffle[questionNumber - 1]].a}
 																		onChange={HandleChange}
 																	/>
 																	<span className="need-job-text">
@@ -259,6 +262,8 @@ function DashBoard() {
 																		value={DataStore && DataStore[shuffle[questionNumber - 1]] ? DataStore[shuffle[questionNumber - 1]].b:""}
 																		className="j-checkbox"
 																		onChange={HandleChange}
+																		checked={ DataStore[shuffle[questionNumber - 1]] &&  DataStore[shuffle[questionNumber - 1]].answer === DataStore[shuffle[questionNumber - 1]].b}
+
 																	/>
 																	<span className="need-job-text-inner">
                                     <span className="checkbox-circle-mark position-absolute">
@@ -292,6 +297,8 @@ function DashBoard() {
 																		value={DataStore && DataStore[shuffle[questionNumber - 1]] ? DataStore[shuffle[questionNumber - 1]].c:""}
 																		className="j-checkbox"
 																		onChange={HandleChange}
+																		checked={ DataStore[shuffle[questionNumber - 1]] &&  DataStore[shuffle[questionNumber - 1]].answer === DataStore[shuffle[questionNumber - 1]].c}
+
 																	/>
 																	<span className="need-job-text-inner">
                                     <span className="checkbox-circle-mark position-absolute">
@@ -325,6 +332,8 @@ function DashBoard() {
 																		value={DataStore && DataStore[shuffle[questionNumber - 1]] ? DataStore[shuffle[questionNumber - 1]].d:""}
 																		className="j-checkbox"
 																		onChange={HandleChange}
+																		checked={ DataStore[shuffle[questionNumber - 1]] &&  DataStore[shuffle[questionNumber - 1]].answer === DataStore[shuffle[questionNumber - 1]].d}
+
 																	/>
 																	<span className="need-job-text">
                                       {DataStore &&
