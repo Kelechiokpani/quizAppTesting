@@ -78,6 +78,20 @@ export default function Login() {
 		SetInput({ ...input, [name]: value });
 	};
 
+	const HandleShuffle = () => {
+		let arr = []
+		for (let i = 0; i < 30; ++i) arr[i] = i;
+		let tmp, current, top = arr.length;
+		if (top) while (--top) {
+			current = Math.floor(Math.random() * (top + 1));
+			tmp = arr[current];
+			arr[current] = arr[top];
+			arr[top] = tmp;
+		}
+		sessionStorage.setItem("shuffle",JSON.stringify(arr))
+
+	}
+
 	const HandleSubmit = (e) => {
 		e.preventDefault();
 
@@ -101,7 +115,7 @@ export default function Login() {
 				"Content-Type": "application/json",
 			}}
 		).then((res)=>{
-			console.log(res.data)
+
 			if(res.data === "user not found"){
 				addToast(res.data, {
 					appearance: "error",
@@ -122,6 +136,7 @@ export default function Login() {
 		else {
 				sessionStorage.setItem("user-token",res.data.token)
 				sessionStorage.setItem("meta-data",JSON.stringify(res.data.user))
+					HandleShuffle()
 				window.location.replace("/quiz/overview")
 			}
 
