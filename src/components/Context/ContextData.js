@@ -136,8 +136,8 @@ const ContextData = ({ children }) => {
     {question:"__________automatically add some empty space (a margin) before and after each heading?",
       a:	"Browser",
       b:"Interpreter",
-      c:	"Server",
-      d:	"Compiler",
+      c:"Server",
+      d:"Compiler",
       answer:""
     },
     {question:"If we want to wrap a block of text around an image, which css property will we use ?",
@@ -179,14 +179,14 @@ const ContextData = ({ children }) => {
       a:  "django",
       b:	"larawell",
       c:	"rails",
-      D:	"bootstrap",
+      d:	"bootstrap",
       answer:""
     },
     {question:"Which of the following css property should be used to make a responsive image?",
       a: "max-width",
       b: "margin-right",
-      C: "float",
-      D:  "All of above",
+      c: "float",
+      d:  "All of above",
       answer:""
     },
     {question:"Which of the following defines the color of a line, text or outline of an element?",
@@ -199,7 +199,7 @@ const ContextData = ({ children }) => {
     {question:"Which of the following @viewport Property locks the document in the specified orientation, portrait or landscape?",
       a:  "landscape",
       b:  "portrait",
-      C:  "resolution",
+      c:  "resolution",
       d:  "orientation",
       answer:""
     },
